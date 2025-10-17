@@ -15,7 +15,7 @@ public class ControlPanel extends JPanel {
 
         txtUrl  = new JTextField("https://www.example.com");
         btnCurl = new JButton("🌐 Consultar");
-        btnDate = new JButton("Date");
+        btnDate = new JButton("📅 Fecha");
         btnRun   = new JButton("▶ Ejecutar");
         btnClear = new JButton("🧹 Limpiar");
         btnExit  = new JButton("🚪 Salir");
