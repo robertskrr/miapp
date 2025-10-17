@@ -17,6 +17,10 @@ public class AppController {
 
 		// Acciones de botones
 		controlPanel.btnCurl.addActionListener(this::onCurl);
+		controlPanel.btnIp.addActionListener(this::onIp);
+		controlPanel.btnStatsRed.addActionListener(this::onStatsRed);
+		controlPanel.btnSockets.addActionListener(this::onSockets);
+		controlPanel.btnPingHost.addActionListener(this::onPing);
 		controlPanel.btnDate.addActionListener(this::onDate);
 		controlPanel.btnRun.addActionListener(this::onRun);
 		controlPanel.btnClear.addActionListener(this::onClear);
@@ -68,7 +72,7 @@ public class AppController {
 	}
 
 	private void onDate(ActionEvent e) {
-		outputPanel.append("Ejecutando comando Date...");
+		outputPanel.append("Ejecutando comando...");
 		try {
 			ProcessBuilder pb = new ProcessBuilder("date");
 			pb.redirectErrorStream(true);
@@ -89,6 +93,116 @@ public class AppController {
 			JOptionPane.showMessageDialog(null, "Error ejecutando proceso:\n" + ex.getMessage());
 		}
 	}
+	
+	private void onIp(ActionEvent e) {
+		outputPanel.append("Ejecutando comando...");
+		try {
+			ProcessBuilder pb = new ProcessBuilder("ip", "addr", "show");
+			pb.redirectErrorStream(true);
+			Process process = pb.start();
+
+			new Thread(() -> {
+				try (var reader = new java.io.BufferedReader(new java.io.InputStreamReader(process.getInputStream()))) {
+					String line;
+					while ((line = reader.readLine()) != null) {
+						outputPanel.append(line);
+					}
+				} catch (Exception ex) {
+					outputPanel.append("Error: " + ex.getMessage());
+				}
+			}).start();
+
+		} catch (Exception ex) {
+			JOptionPane.showMessageDialog(null, "Error ejecutando proceso:\n" + ex.getMessage());
+		}
+	}
+	
+	private void onStatsRed(ActionEvent e) {
+		outputPanel.append("Ejecutando comando...");
+		try {
+			ProcessBuilder pb = new ProcessBuilder("ip", "-s", "link");
+			pb.redirectErrorStream(true);
+			Process process = pb.start();
+
+			new Thread(() -> {
+				try (var reader = new java.io.BufferedReader(new java.io.InputStreamReader(process.getInputStream()))) {
+					String line;
+					while ((line = reader.readLine()) != null) {
+						outputPanel.append(line);
+					}
+				} catch (Exception ex) {
+					outputPanel.append("Error: " + ex.getMessage());
+				}
+			}).start();
+
+		} catch (Exception ex) {
+			JOptionPane.showMessageDialog(null, "Error ejecutando proceso:\n" + ex.getMessage());
+		}
+	}
+	
+	private void onSockets(ActionEvent e) {
+		outputPanel.append("Ejecutando comando...");
+		try {
+			ProcessBuilder pb = new ProcessBuilder("ss", "-l");
+			pb.redirectErrorStream(true);
+			Process process = pb.start();
+
+			new Thread(() -> {
+				try (var reader = new java.io.BufferedReader(new java.io.InputStreamReader(process.getInputStream()))) {
+					String line;
+					while ((line = reader.readLine()) != null) {
+						outputPanel.append(line);
+					}
+				} catch (Exception ex) {
+					outputPanel.append("Error: " + ex.getMessage());
+				}
+			}).start();
+
+		} catch (Exception ex) {
+			JOptionPane.showMessageDialog(null, "Error ejecutando proceso:\n" + ex.getMessage());
+		}
+	}
+	
+	private void onPing(ActionEvent e) {
+		// Recoge la url del TextField
+		String url = controlPanel.txtUrl.getText().trim();
+		// Si la URL está vacía no lo ejecuta
+		if (url.isEmpty()) {
+			JOptionPane.showMessageDialog(null, "Introduce una URL.", "Aviso", JOptionPane.WARNING_MESSAGE);
+			return;
+		}
+		// Muestra el comando utilizado
+		outputPanel.append("$ ping " + url);
+
+		// Comando segun SO
+		String os = System.getProperty("os.name").toLowerCase();
+		ProcessBuilder pb;
+		if (os.contains("win")) {
+			pb = new ProcessBuilder("cmd.exe", "/c", "ping -n 4 " + url);
+		} else {
+			 pb = new ProcessBuilder("bash", "-lc", "ping " + url);
+		}
+		pb.redirectErrorStream(true);
+
+		// Imprime en pantalla el resultado del comando
+		try {
+			Process p = pb.start();
+			new Thread(() -> {
+				try (var br = new java.io.BufferedReader(new java.io.InputStreamReader(p.getInputStream()))) {
+					String line;
+					while ((line = br.readLine()) != null) {
+						outputPanel.append(line);
+					}
+				} catch (Exception ex) {
+					outputPanel.append("Error: " + ex.getMessage());
+				}
+			}).start();
+		} catch (Exception ex) {
+			JOptionPane.showMessageDialog(null, "Error ejecutando PING:\n" + ex.getMessage(), "Error",
+					JOptionPane.ERROR_MESSAGE);
+		}
+	}
+
 
 	private void onRun(ActionEvent e) {
 		outputPanel.append("Ejecutando comando...");
