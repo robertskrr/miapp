@@ -9,7 +9,7 @@ public class ControlPanel extends JPanel {
 	public JTextField txtUrl;
 
     public ControlPanel() {
-        // grid con 5 filas (una por botón)
+        // grid con 6 filas (una por botón)
         setLayout(new GridLayout(6, 1, 10, 10));
         setBorder(BorderFactory.createEmptyBorder(20, 10, 20, 10));
 

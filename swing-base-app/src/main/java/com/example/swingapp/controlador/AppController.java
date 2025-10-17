@@ -24,6 +24,7 @@ public class AppController {
 	}
 
 	private void onCurl(ActionEvent e) {
+		// Recoge la url del TextField
 		String url = controlPanel.txtUrl.getText().trim();
 		// Si la URL está vacía no lo ejecuta
 		if (url.isEmpty()) {
