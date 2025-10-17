@@ -28,18 +28,29 @@ public class MainWindow extends JFrame {
 
         // Asigna el gestor de diseño principal: BorderLayout
         // Esto permite dividir la ventana en zonas (NORTH, SOUTH, EAST, WEST, CENTER)
-        setLayout(new BorderLayout());
+        getContentPane().setLayout(new BorderLayout());
 
         // Crea los paneles laterales y centrales
         controlPanel = new ControlPanel();  // Panel con botones y controles
+        controlPanel.txtUrl.setForeground(new Color(255, 255, 255));
+        controlPanel.txtUrl.setBackground(new Color(0, 0, 0));
+        controlPanel.btnRun.setBackground(new Color(143, 240, 164));
+        controlPanel.btnPingHost.setBackground(new Color(143, 240, 164));
+        controlPanel.btnSockets.setBackground(new Color(143, 240, 164));
+        controlPanel.btnStatsRed.setBackground(new Color(143, 240, 164));
+        controlPanel.btnIp.setBackground(new Color(143, 240, 164));
+        controlPanel.btnDate.setBackground(new Color(143, 240, 164));
+        controlPanel.btnClear.setBackground(new Color(153, 193, 241));
+        controlPanel.btnExit.setBackground(new Color(246, 97, 81));
+        controlPanel.btnCurl.setBackground(new Color(143, 240, 164));
         outputPanel  = new OutputPanel();   // Panel que muestra texto o resultados
 
         // Crea el controlador que coordina los eventos entre ambos paneles
         controller   = new AppController(controlPanel, outputPanel);
 
         // Añade los paneles a las zonas correspondientes del BorderLayout
-        add(controlPanel, BorderLayout.WEST);   // Lado izquierdo
-        add(outputPanel, BorderLayout.CENTER);  // Zona central
+        getContentPane().add(controlPanel, BorderLayout.WEST);   // Lado izquierdo
+        getContentPane().add(outputPanel, BorderLayout.CENTER);  // Zona central
 
         // Finalmente, muestra la ventana
         setVisible(true);
