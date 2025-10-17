@@ -16,7 +16,7 @@ public class AppController {
 		this.outputPanel = o;
 
 		// Acciones de botones
-		controlPanel.controlPanel.btnRun.addActionListener(this::onRun);
+		controlPanel.btnRun.addActionListener(this::onRun);
 		controlPanel.btnClear.addActionListener(this::onClear);
 		controlPanel.btnExit.addActionListener(e -> System.exit(0));
 	}
